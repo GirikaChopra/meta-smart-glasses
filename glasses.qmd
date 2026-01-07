@@ -53,6 +53,8 @@ The output of this phase is a clean, reproducible exploratory analysis, supporte
 library(tidyverse)
 library(janitor)
 library(dplyr)
+library(knitr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -64,6 +66,7 @@ reviews <- reviews_raw %>%
   clean_names()
 
 ```
+
 ```{r}
 
 reviews_clean <- reviews %>%
@@ -80,4 +83,30 @@ write_csv(
 )
 
 ```
+
+
+```{r}
+#Create a basic ratings summary table
+rating_summary <- reviews_clean %>%
+  summarise(
+    total_reviews = n(),
+    average_rating = mean(rating, na.rm = TRUE),
+    minimum_rating = min(rating, na.rm = TRUE),
+    maximum_rating = max(rating, na.rm = TRUE)
+  )
+
+rating_summary %>%
+  kable(
+    caption = "Table 1: Summary statistics of customer ratings"
+  ) %>%
+  kable_styling(full_width = FALSE)
+```
+
+
+
+
+
+
+
+
 
