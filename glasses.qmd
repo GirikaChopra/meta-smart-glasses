@@ -52,7 +52,7 @@ The output of this phase is a clean, reproducible exploratory analysis, supporte
 # Load required libraries
 library(tidyverse)
 library(janitor)
-
+library(dplyr)
 ```
 
 ```{r}
@@ -62,6 +62,22 @@ reviews_raw <- read_csv("data/Meta-Glasses-Reviews.csv")
 # Clean column names
 reviews <- reviews_raw %>%
   clean_names()
+
+```
+```{r}
+
+reviews_clean <- reviews %>%
+  select(
+    -review_id,
+    -name,
+    -profile,
+    -review_link,
+    -review_image
+  )
+write_csv(
+  reviews_clean,
+  "data/meta_reviews_selected_columns.csv"
+)
 
 ```
 
