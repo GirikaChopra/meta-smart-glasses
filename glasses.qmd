@@ -48,3 +48,20 @@ The aim of this project is to convert raw customer reviews into actionable produ
 The output of this phase is a clean, reproducible exploratory analysis, supported by professional tables and visualisations.
 
 
+```{r}
+# Load required libraries
+library(tidyverse)
+library(janitor)
+
+```
+
+```{r}
+# Load the dataset
+reviews_raw <- read_csv("data/raw/Meta-Glasses-Reviews.csv")
+
+# Clean column names
+reviews <- reviews_raw %>%
+  clean_names()
+
+```
+
