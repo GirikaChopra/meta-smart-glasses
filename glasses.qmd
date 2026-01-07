@@ -57,7 +57,7 @@ library(janitor)
 
 ```{r}
 # Load the dataset
-reviews_raw <- read_csv("data/raw/Meta-Glasses-Reviews.csv")
+reviews_raw <- read_csv("data/Meta-Glasses-Reviews.csv")
 
 # Clean column names
 reviews <- reviews_raw %>%
