@@ -18,8 +18,33 @@ execute:
 ***Meta's Display Glasses, Smart AI Glasses for Men and Women***
 
 ```{r}
+#| label: setup
+#| include: false
+
+pkgs <- c(
+"tidyverse", "janitor", "lubridate", "skimr",
+"knitr", "kableExtra", "scales", "stringr", "forcats"
+)
+
+to_install <- pkgs[!pkgs %in% installed.packages()[, "Package"]]
+if (length(to_install) > 0) install.packages(to_install)
+
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+theme_set(theme_minimal(base_size = 12))
+options(scipen = 999)
 
 ```
 
+### MAIN AIM
+
+The aim of this project is to convert raw customer reviews into actionable product and marketing insights for Meta Smart Glasses. Specifically, this analysis seeks to:
+
+- Describe overall customer satisfaction patterns using star ratings.
+- Compare review behaviour across verified vs non-verified purchases (where available).
+- Examine geographic and time patterns in review volume and ratings.
+- Investigate factors associated with “helpful” reviews (e.g., review length, rating extremity).
+
+The output of this phase is a clean, reproducible exploratory analysis, supported by professional tables and visualisations.
 
 
