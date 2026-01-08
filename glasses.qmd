@@ -55,6 +55,9 @@ library(janitor)
 library(dplyr)
 library(knitr)
 library(kableExtra)
+library(ggplot2)
+library(lubridate)
+
 ```
 
 ```{r}
@@ -103,10 +106,51 @@ rating_summary %>%
 ```
 
 
+```{r}
+ggplot(reviews_clean, aes(x = rating)) +
+  geom_bar() +
+  labs(
+    title = "Distribution of Ratings for Meta Smart Glasses",
+    x = "Rating (1 = lowest, 5 = highest)",
+    y = "Number of Reviews"
+  )
+```
+
+### This section examines how average customer ratings for Meta Smart Glasses have evolved over time.
+
+```{r}
+
+reviews_clean <- reviews_clean %>%
+  mutate(
+    review_date = mdy(date)
+  )
+summary(reviews_clean$review_date)
 
 
+```
 
+```{r}
+#Rating Trends Over Time
+rating_time <- reviews_clean %>%
+  filter(!is.na(review_date), !is.na(rating)) %>%
+  mutate(month = floor_date(review_date, "month")) %>%
+  group_by(month) %>%
+  summarise(
+    average_rating = mean(rating),
+    number_of_reviews = n()
+  )
 
+ggplot(rating_time, aes(x = month, y = average_rating)) +
+  geom_line() +
+  geom_point() +
+  labs(
+    title = "Average Customer Rating Over Time",
+    x = "Month",
+    y = "Average Rating"
+  ) +
+  ylim(1, 5)
+
+```
 
 
 
