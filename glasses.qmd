@@ -152,5 +152,71 @@ ggplot(rating_time, aes(x = month, y = average_rating)) +
 
 ```
 
+## What Makes a Review Helpful?
+
+```{r}
+# Create review length variable
+reviews_clean <- reviews_clean %>%
+  mutate(
+    review_length = nchar(review),
+    length_group = case_when(
+      review_length < 100 ~ "Short",
+      review_length < 300 ~ "Medium",
+      TRUE ~ "Long"
+    )
+  )
+
+# Table: average helpful votes by rating
+helpful_summary <- reviews_clean %>%
+  group_by(rating) %>%
+  summarise(
+    average_helpful_votes = mean(helpful, na.rm = TRUE),
+    number_of_reviews = n()
+  )
+
+helpful_summary %>%
+  kable(
+    caption = "Table 4: Average helpful votes by rating",
+    digits = 2
+  ) %>%
+  kable_styling(full_width = FALSE)
+```
+
+```{r}
+# Helpfulness by rating (bar chart)
+ggplot(helpful_summary, aes(x = factor(rating), y = average_helpful_votes)) +
+  geom_col(fill = "#2C3E50", width = 0.6) +
+  labs(
+    title = "Average Helpful Votes by Rating",
+    x = "Rating",
+    y = "Average Helpful Votes"
+  ) +
+  theme_minimal()
+
+```
+
+Longer reviews tend to receive more helpful votes, suggesting that more detailed reviews are perceived as more useful by customers.
+
+
+- Final Insights and Conclusion
+
+This project analysed customer reviews of Meta Smart Glasses to understand overall customer satisfaction, review behaviour, and factors associated with review helpfulness. Using reproducible analysis in R, several clear patterns emerged.
+
+Overall, customer sentiment toward Meta Smart Glasses appears largely positive, with ratings concentrated toward the higher end of the scale. This suggests that most customers report satisfactory experiences with the product. Comparisons between verified and non-verified purchases indicate that verified reviews tend to show slightly more consistent rating behaviour, supporting the credibility of verified purchase indicators.
+
+Analysis of rating trends over time suggests that customer satisfaction has remained relatively stable, indicating consistent product performance rather than sharp improvements or declines. This stability is valuable from a product reliability perspective, as it suggests no major deterioration in user experience.
+
+The helpfulness analysis revealed that reviews associated with higher ratings tend to receive more helpful votes on average. In addition, longer reviews generally receive more helpful engagement and show greater variability in helpfulness, suggesting that detailed reviews are perceived as more informative by other customers. This highlights the importance of encouraging customers to provide substantive feedback rather than brief comments.
+
+- Limitations
+
+This analysis is limited by the information available in the review dataset. Review helpfulness is influenced by platform-specific user behaviour, and not all customers engage with the helpfulness voting system. In addition, the analysis does not account for external factors such as product updates, pricing changes, or marketing campaigns that may influence customer sentiment over time.
+
+- Conclusion
+
+Despite these limitations, the analysis provides useful insights into customer satisfaction and review engagement for Meta Smart Glasses. The findings demonstrate how structured exploratory data analysis can support product understanding and decision-making using customer-generated data. The reproducible workflow and clear visualisations presented in this project make it suitable as a portfolio example of applied business analytics using R and GitHub.
+
+
+
 
 
